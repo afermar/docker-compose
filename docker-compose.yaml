@@ -1,0 +1,154 @@
+version: "3.2"
+services:
+  prowlarr:
+    container_name: prowlarr
+    hostname: prowlarr
+    image: ghcr.io/hotio/prowlarr:latest
+    networks:
+      - home-server
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Madrid
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/appdata/prowlarr:/config
+  radarr:
+    container_name: radarr
+    hostname: radarr
+    image: ghcr.io/hotio/radarr:latest
+    networks:
+      - home-server
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Madrid
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/appdata/radarr:/config
+      - /data:/data
+  sonarr:
+    container_name: sonarr
+    hostname: sonarr
+    image: ghcr.io/hotio/sonarr:latest
+    networks:
+      - home-server
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Madrid
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/appdata/sonarr:/config
+      - /data:/data
+  bazarr:
+    container_name: bazarr
+    hostname: bazarr
+    image: ghcr.io/hotio/bazarr:latest
+    networks:
+      - home-server
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Madrid
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/appdata/bazarr:/config
+      - /data/media:/data/media
+  qbittorrent:
+    container_name: qbittorrent
+    hostname: qbittorrent
+    image: ghcr.io/hotio/qbittorrent:latest
+    networks:
+      - home-server
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Madrid
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/appdata/qbittorrent:/config
+      - /data/torrents:/data/torrents
+  jellyfin:
+    container_name: jellyfin
+    hostname: jellyfin
+    image: ghcr.io/hotio/jellyfin
+    networks:
+      - home-server
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Madrid
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/appdata/jellyfin:/config
+      - /data/media:/data/media
+  lidarr:
+    container_name: lidarr
+    hostname: lidarr
+    image: ghcr.io/hotio/lidarr
+    networks:
+      - home-server
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Madrid
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/appdata/lidarr:/config
+      - /data:/data
+  jackett:
+    container_name: jackett
+    hostname: jackett
+    image: ghcr.io/hotio/jackett
+    networks:
+      - home-server
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Madrid
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/appdata/jackett:/config
+  flaresolverr:
+    # DockerHub mirror flaresolverr/flaresolverr:latest
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    hostname: flaresolverr
+    networks:
+      - home-server
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_HTML=${LOG_HTML:-false}
+      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
+      - TZ=Europe/Madrid
+    restart: unless-stopped  
+    
+networks:
+ home-server:
+  name: home-server
+  external: true
